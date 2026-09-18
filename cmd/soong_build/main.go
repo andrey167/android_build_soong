@@ -315,12 +315,8 @@ func parseAvailableEnv() map[string]string {
 }
 
 func main() {
-	// Build-action generation keeps a large live heap.  Start collection before
-	// the default 100% heap-growth target to avoid an avoidable RSS spike on
-	// memory-constrained workstations.  An explicitly forwarded GOGC still wins.
-	if os.Getenv("GOGC") == "" {
-		debug.SetGCPercent(50)
-	}
+	debug.SetMemoryLimit(40 * 1024 * 1024 * 1024)
+	debug.SetGCPercent(25)
 
 	flag.Parse()
 
